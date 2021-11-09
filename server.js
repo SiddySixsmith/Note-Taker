@@ -1,8 +1,8 @@
 //import modules
 const express = require("express");
-const { Router } = require("express");
-const notes = require("./Develop/db/db.json")
 const clog = require('./middlewear/clog');
+const webRouter = require("./routes/web/web");
+const notesRoute = require("./routes/api/api");
 
 //setting express app and port
 const app = express();
@@ -10,14 +10,13 @@ PORT = process.env.PORT = 3001;
 
 app.use(clog);
 
-const apiRouter = require("./routes/api");
-const htmlroute = require("./routes/html");
-
-app.use(express.urlencoded({extended: true}));
 app.use(express.json())
-app.use(express.static(".Develop/public"));
-app.use(apiRouter);
-app.use(htmlroute);
+// load static assets in public folder
+app.use(express.static("public"));
+
+//uses routes created in js files
+app.use(notesRoute);
+app.use(webRouter);
 
 
 app.listen(PORT, () =>
