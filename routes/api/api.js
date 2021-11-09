@@ -4,7 +4,7 @@ const router = express.Router();
 const fs = require("fs");
 const uuid = require("uuid");
 
-
+const notePath = path.join(__dirname, "../../db/db.json")
 /**
  * 
  * @returns {Array <{
@@ -15,7 +15,7 @@ const uuid = require("uuid");
  */
 
 function getNotesFromDb(){
-    const notePath = path.join(__dirname, "../../db/db.json")
+    console.log(JSON.parse(fs.readFileSync(notePath, "utf-8")))
     return JSON.parse(fs.readFileSync(notePath, "utf-8"));
 }
 
@@ -50,10 +50,10 @@ router.post("/api/notes", function(req, res){
         text: req.body.text,
     }
 
-    const updateNotes = {
+    const updateNotes = [
         ...notes,
         newNote
-    }
+    ]
 
     saveNotesToDb(updateNotes);
     
